@@ -11,4 +11,6 @@ interface RepositoryInterface
 
     public function search(string $name): Collection;
 
+    public function get(string $name): array;
+
 }

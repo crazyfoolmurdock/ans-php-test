@@ -18,5 +18,11 @@ class IndexController extends Controller
         return view('index', ['pokemons' => $repository->search($request->get('name'))]);
     }
 
+    public function view(string $name, RepositoryInterface $repository)
+    {
+        return view('view', ['pokemon' => $repository->get($name)]);
+
+    }
+
 
 }

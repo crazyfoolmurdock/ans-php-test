@@ -65,4 +65,23 @@ class PokemonRepositoryTest extends TestCase
         
 
     }
+
+    public function test_get_gets_performs_expected_request()
+    {
+
+        $name = 'raichu';
+
+        // the response doesnt really matter, we are testing the request
+        Http::fake(['*' => Http::response($this->sampleResponseJson(), 200, ['Headers']),]);
+
+        $repository = $this->app->make(PokemonRepository::class);
+
+        $result = $repository->get($name);
+
+        Http::assertSent(function (Request $request) use ($name) {
+            return  str_ends_with($request->url(), '/pokemon/' . $name);
+        });
+        
+
+    }
 }

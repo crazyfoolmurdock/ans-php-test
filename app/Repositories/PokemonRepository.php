@@ -40,6 +40,13 @@ class PokemonRepository implements RepositoryInterface
         
     }
 
+
+    public function get(string $name): array
+    {
+        return $this->api->getPokemon($name);
+    }
+ 
+
    
     
     
