@@ -19,7 +19,7 @@
     <ul>
         @foreach ($pokemons as $pokemon)
             <li>
-                {{ $pokemon['name'] }}
+                <a href="/{{ $pokemon['name'] }}" > {{ $pokemon['name'] }}</a>
             </li>
          @endforeach
      </ul>
