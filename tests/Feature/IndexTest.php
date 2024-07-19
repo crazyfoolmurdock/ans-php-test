@@ -2,13 +2,9 @@
 
 namespace Tests\Feature;
 
-use Mockery;
 use Tests\TestCase;
-use PokePHP\PokeApi;
-use Mockery\MockInterface;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class IndexTest extends TestCase
 {
@@ -48,6 +44,37 @@ class IndexTest extends TestCase
 
         $pokemon = array_column(json_decode($apiResponseContent, true)['results'], 'name');
         $response->assertSee($pokemon);
+
+    }
+
+
+    public static function nameSearchProvider(): array
+    {
+        return [
+            'full_name' => ['search' => 'ivysaur', 'see' => ['ivysaur'], 'dontsee' => ['bulbasaur', 'venusaur']],
+            'not_found' => ['search' => 'pikachu', 'see' => [], 'dontsee' => ['bulbasaur', 'ivysaur', 'venusaur']],
+        ];
+    }
+
+
+
+    #[DataProvider('nameSearchProvider')]
+    public function test_search_shows_the_expected_pokemon(string $search, array $see, array $dontsee)
+    {
+        Http::fake(['*' => Http::response($this->samplePokemonJson(), 200, ['Headers']),]);
+
+        $response = $this->get('/search', ['name' => $search]);
+
+        foreach($see as $expected){
+
+            $response->assertSee($expected);
+        }
+
+        foreach($dontsee as $expected){
+
+            $response->assertDontSee($expected);
+        }
+
 
     }
 }

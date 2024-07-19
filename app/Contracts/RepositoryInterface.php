@@ -9,4 +9,6 @@ interface RepositoryInterface
 
     public function all(): Collection;
 
+    public function search(string $name): Collection;
+
 }

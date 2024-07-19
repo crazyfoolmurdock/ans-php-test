@@ -32,6 +32,14 @@ class PokemonRepository implements RepositoryInterface
 
     }
 
+    public function search(string $name): Collection
+    {
+        $all = $this->all();
+
+        return $all->filter(fn ($pokemon) => $pokemon['name'] == $name);
+        
+    }
+
    
     
     

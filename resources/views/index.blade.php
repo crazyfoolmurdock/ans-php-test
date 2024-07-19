@@ -2,7 +2,7 @@
    
     <h1>Pokedex</h1>
  
-    <form method="get" action="/">
+    <form method="post" action="/search">
         @csrf
             <label for="name">Filter Pokemon</label>
             <input type="text" name="name" id="name" required />
