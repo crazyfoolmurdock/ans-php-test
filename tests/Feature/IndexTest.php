@@ -52,6 +52,7 @@ class IndexTest extends TestCase
     {
         return [
             'full_name' => ['search' => 'ivysaur', 'see' => ['ivysaur'], 'dontsee' => ['bulbasaur', 'venusaur']],
+            'partial_name' => ['search' => 'lba', 'see' => ['bulbasaur'], 'dontsee' => ['ivysaur', 'venusaur']],
             'not_found' => ['search' => 'pikachu', 'see' => [], 'dontsee' => ['bulbasaur', 'ivysaur', 'venusaur']],
         ];
     }
@@ -63,17 +64,11 @@ class IndexTest extends TestCase
     {
         Http::fake(['*' => Http::response($this->samplePokemonJson(), 200, ['Headers']),]);
 
-        $response = $this->get('/search', ['name' => $search]);
+        $response = $this->post('/search', ['name' => $search]);
 
-        foreach($see as $expected){
+        $response->assertSee($see);
 
-            $response->assertSee($expected);
-        }
-
-        foreach($dontsee as $expected){
-
-            $response->assertDontSee($expected);
-        }
+        $response->assertDontSee($dontsee);
 
 
     }
