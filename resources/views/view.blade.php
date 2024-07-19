@@ -18,4 +18,6 @@
 
     </ul>
 
+    <a href="/">Main Page</a>
+
  </x-layout>
